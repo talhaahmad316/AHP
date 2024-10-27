@@ -9,10 +9,14 @@ use App\Models\CarsDetail;
 class CarsDetailController extends Controller
 {
     public function index()
-    {
-        $carsDetails=CarsDetail::get();
-        return response()->json($carsDetails);
-    }
+{
+    $carsDetails = CarsDetail::get();
+    $carsDetails->transform(function ($carsDetail) {
+        $carsDetail->picture_url = asset('carsDetail/' . $carsDetail->image);
+        return $carsDetail;
+    });
+    return response()->json($carsDetails);
+}
     public function store(Request $request)
     {
         $request->validate([
